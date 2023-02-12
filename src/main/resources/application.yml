@@ -1,0 +1,25 @@
+spring:
+
+    cloud:
+      discovery:
+          enabled: true
+    application:
+        name: banklyOperation
+    data:
+        mongodb:
+            host: localhost
+            port: 27017
+            database: operation
+server:
+    port: 9999
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    instance:
+        prefer-ip-address: true
