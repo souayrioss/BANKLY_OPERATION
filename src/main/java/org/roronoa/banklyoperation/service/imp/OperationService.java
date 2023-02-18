@@ -33,8 +33,7 @@ public class OperationService implements IOperationService {
             sold = sold + operation.getSold();
         }
         operation.setDateOperation(LocalDate.now());
-        Boolean updateWallet = walletService.update(operation.getWallet(),sold).getData();
-        if (updateWallet.equals(Boolean.TRUE)) {
+        if (checkUpdate(operation.getWallet(),sold)) {
             return operationRepository.save(operation);
         }
         return null;
@@ -53,6 +52,9 @@ public class OperationService implements IOperationService {
     public Double getWallet(String reference){
         ResponseDTO<Double> response = walletService.getSoldWallet(reference);
         return response.getData();
+    }
+    public boolean checkUpdate(String reference,Double sold){
+        return walletService.update(reference,sold).getData();
     }
     public boolean validationSold(Double soldWallet,Double soldOperation){
         return soldWallet >= soldOperation;
