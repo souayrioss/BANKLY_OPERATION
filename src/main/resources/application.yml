@@ -2,7 +2,7 @@ spring:
 
     cloud:
       discovery:
-          enabled: true
+          enabled: false
     application:
         name: banklyOperation
     data:

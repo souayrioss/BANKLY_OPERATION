@@ -9,6 +9,8 @@ import org.roronoa.banklyoperation.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static org.roronoa.banklyoperation.util.IConstantes.*;
 
 @RestController
@@ -25,6 +27,22 @@ public class operationResource {
         try{
             Operation operation =EntityUtils.operationDTOToOperation(operationDto);
             operation = operationService.save(operation);
+            ResponseDTO response = new ResponseDTO<>();
+            response.setData(EntityUtils.operationToOperationDTO(operation));
+            response.setStatus(CODE_001);
+            return response;
+        }catch (Exception e){
+            ResponseDTO response = new ResponseDTO<>();
+            response.setStatus(CODE_000);
+            response.setMessage(e.getMessage());
+            return response;
+        }
+    }
+
+    @GetMapping
+    public ResponseDTO<OperationDto> getAllOperations(){
+        try{
+            Operation operation = operationService.getAllOperationWallet();
             ResponseDTO response = new ResponseDTO<>();
             response.setData(EntityUtils.operationToOperationDTO(operation));
             response.setStatus(CODE_001);

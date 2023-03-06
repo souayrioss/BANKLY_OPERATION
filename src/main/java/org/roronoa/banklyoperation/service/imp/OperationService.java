@@ -1,6 +1,9 @@
 package org.roronoa.banklyoperation.service.imp;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import org.roronoa.banklyoperation.dto.ResponseDTO;
 import org.roronoa.banklyoperation.entity.Operation;
 import org.roronoa.banklyoperation.entity.TypeOperation;
@@ -10,7 +13,9 @@ import org.roronoa.banklyoperation.service.IWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 @Service
@@ -22,7 +27,8 @@ public class OperationService implements IOperationService {
     IWalletService walletService;
 
     @Override
-    public Operation save(@Valid Operation operation) {
+    public Operation save(@Valid Operation operation){
+
         Double sold = getWallet(operation.getWallet());
         if (operation.getTypeOperation().equals(TypeOperation.WITHDRAW)){
             if (!validationSold(sold,operation.getSold())) {
@@ -59,5 +65,6 @@ public class OperationService implements IOperationService {
     public boolean validationSold(Double soldWallet,Double soldOperation){
         return soldWallet >= soldOperation;
     }
+
 
 }
